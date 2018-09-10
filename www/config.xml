@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ru.smart-g.fitcrm" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Fit CRM</name>
+    <description>
+        Fit CRM application from idance.online.
+    </description>
+    <author email="wiselion@yandex.ru" href="https://smart-g.ru">
+        Smart Generation team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+
+    <splash src="images/splush/default.png" platform="ios" width="320" height="480" />
+    <splash src="images/splush/default@2x.png" platform="ios" width="640" height="960" />
+    <splash src="images/splush/default@3x.png" platform="ios" width="960" height="1440" />
+<!--    <splash src="images/splush/default-portrait~ipad.png" width="768" height="1024"/>
+    <splash src="images/splush/default-portrait@2x~ipad.png" width="1536" height="2048"/>
+    <splash src="images/splush/default-landscape~ipad.png" width="1024" height="768"/>
+    <splash src="images/splush/default-landscape@2x~ipad.png" width="2048" height="1536"/>-->
+    <splash src="images/splush/default-568h@2x-iphone.png" width="640" height="1136"/>
+    <splash src="images/splush/default-667h.png" width="750" height="1334"/>
+    <splash src="images/splush/default-736h.png" width="1242" height="2208"/>
+
+    <splash src="images/splush/ldpi.png" platform="android" qualifier="ldpi" />
+    <splash src="images/splush/mdpi.png" platform="android" qualifier="mdpi" />
+    <splash src="images/splush/hdpi.png" platform="android" qualifier="hdpi" />
+    <splash src="images/splush/xhdpi.png" platform="android" qualifier="xhdpi" />
+
+    <platform name="android">
+		<preference name="phonegap-version" value="cli-7.1.0" />
+        <preference name="android-minSdkVersion" value="14" />
+        <allow-intent href="market:*" />
+        <icon src="images/icons/icon-60@3x.png" width="180" height="180" />
+		<!--<preference name="android.permission-group.CAMERA" value="true" />
+		<preference name="android.permission-group.LOCATION" value="true" />-->
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <preference name="BackupWebStorage" value="none" />
+        <icon src="images/icons/icon-60@3x.png" width="180" height="180" />
+    </platform>
+	<!--<edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+	    <string>Need location access to find things nearby</string>
+	</edit-config>-->
+	<!--<edit-config target="NSContactsUsageDescription" file="*-Info.plist" mode="merge">
+    	<string>Need contacts access to search friends</string>
+	</edit-config>-->
+	<!--<feature name="Geolocation"> 
+		<param name="android-package" value="org.apache.cordova.GeoBroker" />
+		<param name="ios-package" value="CDVLocation" />
+	</feature>-->
+	<preference name="DisallowOverscroll" value="true" />
+    <preference name="orientation" value="portrait" />
+    <config-file platform="ios" parent="UISupportedInterfaceOrientations" mode="replace">
+        <array>
+            <string>UIInterfaceOrientationLandscapeOmg</string>
+        </array>
+    </config-file>
+	<config-file platform="ios" parent="NSLocationWhenInUseUsageDescription" overwrite="false">
+		<string>Need location access to find things nearby</string>
+	</config-file>
+	<config-file platform="ios" parent="NSContactsUsageDescription" overwrite="false">
+		<string>Need contacts access to search friends</string>
+	</config-file>
+	<config-file platform="ios" parent="NSCameraUsageDescription" overwrite="false">
+		<string>Need camera access to take pictures</string>
+	</config-file>
+	<config-file platform="ios" parent="NSPhotoLibraryUsageDescription" overwrite="false">
+		<string>Need photo library access to get pictures from there</string>
+	</config-file>
+	<config-file platform="ios" parent="NSPhotoLibraryAddUsageDescription" overwrite="false">
+		<string>Need photo library access to save pictures there</string>
+	</config-file>
+	<config-file platform="ios" parent="NSCalendarsUsageDescription" overwrite="false">
+		<string>Need set your events to calendar</string>
+	</config-file>
+	<config-file platform="android" parent="/manifest" mode="add">
+	    <!--<uses-permission android:name="android.permission_group.CALENDAR" />
+	    <uses-permission android:name="android.permission_group.CAMERA" />
+	    <uses-permission android:name="android.permission_group.LOCATION" />
+	    <uses-permission android:name="android.permission_group.STORAGE" />-->
+	    <uses-permission android:name="android.permission.INTERNET" />
+	    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+	    <uses-permission android:name="android.permission.CAMERA" />
+	    <uses-permission android:name="android.permission.READ_CONTACTS" />
+	    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	</config-file>
+	<plugin name="cordova-plugin-whitelist" spec="~1.2.0" />
+    <plugin name="cordova-plugin-console" spec="~1.0.1" />
+    <plugin name="cordova-plugin-statusbar" spec="~1.0.1" />
+    <plugin name="cordova-plugin-globalization" spec="~1.11.0" />
+    <plugin name="cordova-plugin-geolocation" spec="~4.0.1" />
+    <plugin name="cordova-plugin-device" spec="~2.0.2" />
+    <plugin name="cordova-plugin-network-information" spec="~2.0.1" />
+    <plugin name="cordova-plugin-camera" />
+    <!--<plugin name="https://github.com/apache/cordova-plugin-camera.git" source="git" />-->
+    <plugin spec="https://github.com/dbaq/cordova-plugin-contacts-phone-numbers.git" source="git" />
+    <!--<plugin name="cordova-plugin-contacts" spec="~3.0.1" />-->
+</widget>
