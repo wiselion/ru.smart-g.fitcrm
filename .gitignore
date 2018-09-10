@@ -1,2 +1,6 @@
 # Mac
 .DS_Store
+# Cordova & PhoneGap files
+/hooks/*
+/platforms/*
+/plugins/*
