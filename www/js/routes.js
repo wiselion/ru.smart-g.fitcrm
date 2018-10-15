@@ -18,7 +18,8 @@ app_prms.url = {
 routes = [
   {
     path: '/',
-    componentUrl: './pages/tape.html',
+    componentUrl: './pages/home.html',
+    //componentUrl: './pages/tape.html',
   },
   {
     path: '/post/:postId/',

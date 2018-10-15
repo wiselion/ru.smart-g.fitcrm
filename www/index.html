@@ -15,90 +15,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#2196f3">
+  <meta name="theme-color" content="#009588">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
-  <title>FIT.CRM</title>
+  <title>Fit CRM</title>
 
   <link rel="stylesheet" href="framework7/css/framework7.min.css">
   <link rel="stylesheet" href="css/icons.css">
+  <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/app.css">
 </head>
-<body>
+<body class="color-theme-tealfit">
   <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
-    <!-- Left panel with cover effect-->
-    <div class="panel panel-left panel-cover theme-dark">
-      <div class="view">
-        <div class="page">
-          <div class="navbar">
-            <div class="navbar-inner">
-              <div class="title">Left Panel</div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="block">Left panel content goes here</div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Views/Tabs container -->
     <div class="views tabs ios-edges">
       <!-- Tabbar for switching views-tabs -->
-      <div class="toolbar tabbar-labels toolbar-bottom-md">
+      <div class="toolbar tabbar-labels toolbar-bottom-md" id="bottom-toolbar">
         <div class="toolbar-inner">
           <a href="#view-home" class="tab-link tab-link-active">
-            <i class="icon f7-icons ios-only">home</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">home_fill</i>
-            <i class="icon material-icons md-only">home</i>
-            <span class="tabbar-label">Home</span>
+		  	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 34 34"><path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M17.333,-0.000 L16.667,-0.000 L-0.000,12.500 L-0.000,34.000 L13.000,34.000 L13.000,25.000 L21.000,25.000 L21.000,34.000 L34.000,34.000 L34.000,12.500 L17.333,-0.000 ZM32.000,32.000 L23.000,32.000 L23.000,23.000 L11.000,23.000 L11.000,32.000 L2.000,32.000 L2.000,13.500 L17.000,2.250 L32.000,13.500 L32.000,32.000 Z"/></svg>
+            <!--<span class="tabbar-label"><span class="badge color-green">5</span></span>-->
           </a>
-          <a href="#view-catalog" class="tab-link">
-            <i class="icon f7-icons ios-only">list</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">list_fill</i>
-            <i class="icon material-icons md-only">view_list</i>
-            <span class="tabbar-label">Catalog</span>
+          <a href="#view-search" class="tab-link">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 34 34"><path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M33.611,32.293 L23.646,22.301 C25.681,19.935 26.922,16.863 26.922,13.500 C26.922,6.056 20.883,-0.000 13.458,-0.000 C6.034,-0.000 -0.005,6.056 -0.005,13.500 C-0.005,20.944 6.034,27.000 13.458,27.000 C16.812,27.000 19.876,25.756 22.235,23.715 L32.201,33.707 C32.395,33.902 32.650,34.000 32.906,34.000 C33.161,34.000 33.416,33.902 33.611,33.707 C34.000,33.316 34.000,32.684 33.611,32.293 ZM13.458,25.000 C7.135,25.000 1.990,19.841 1.990,13.500 C1.990,7.159 7.135,2.000 13.458,2.000 C19.782,2.000 24.927,7.159 24.927,13.500 C24.927,19.841 19.782,25.000 13.458,25.000 Z"/></svg>
           </a>
-          <a href="#view-settings" class="tab-link">
-            <i class="icon f7-icons ios-only">settings</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">settings_fill</i>
-            <i class="icon material-icons md-only">settings</i>
-            <span class="tabbar-label">Settings</span>
+          <a href="#view-messages" class="tab-link">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 34 34"><path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M27.000,-0.000 L7.000,-0.000 C3.141,-0.000 -0.000,3.141 -0.000,7.000 L-0.000,21.000 C-0.000,24.520 2.612,27.442 6.000,27.929 L6.000,34.000 L7.302,34.000 L16.303,28.000 L27.000,28.000 C30.859,28.000 34.000,24.859 34.000,21.000 L34.000,7.000 C34.000,3.141 30.859,-0.000 27.000,-0.000 ZM32.000,21.000 C32.000,23.757 29.757,26.000 27.000,26.000 L15.697,26.000 L8.000,31.132 L8.000,26.000 L7.000,26.000 C4.243,26.000 2.000,23.757 2.000,21.000 L2.000,7.000 C2.000,4.243 4.243,2.000 7.000,2.000 L27.000,2.000 C29.757,2.000 32.000,4.243 32.000,7.000 L32.000,21.000 Z"/></svg>
+          </a>
+          <a href="#view-notices" class="tab-link">
+		  	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 34"><path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M15.856,33.956 C14.157,33.956 12.695,33.248 11.513,31.852 C10.583,30.752 10.028,29.458 9.858,27.994 L3.315,27.994 C2.425,27.994 1.646,27.688 0.999,27.083 C0.346,26.473 -0.000,25.700 -0.000,24.848 L-0.000,24.368 L0.381,24.071 C0.940,23.632 1.455,23.167 1.913,22.688 C2.358,22.221 2.834,21.595 3.328,20.827 C3.818,20.061 4.239,19.224 4.579,18.341 C4.921,17.450 5.207,16.347 5.428,15.061 C5.652,13.766 5.765,12.350 5.765,10.855 C5.765,8.897 6.567,7.069 8.149,5.421 C9.495,4.020 11.213,3.086 13.265,2.634 C13.301,1.975 13.581,1.384 14.079,0.918 C15.122,-0.055 16.872,-0.057 17.918,0.916 C18.418,1.384 18.698,1.975 18.734,2.634 C20.787,3.086 22.504,4.020 23.850,5.420 C25.432,7.068 26.234,8.897 26.234,10.855 C26.234,12.348 26.347,13.764 26.571,15.061 C26.793,16.347 27.079,17.450 27.421,18.342 C27.761,19.226 28.182,20.063 28.672,20.829 C29.164,21.594 29.640,22.220 30.086,22.688 C30.541,23.164 31.056,23.630 31.619,24.070 L32.000,24.368 L32.000,24.848 C32.000,25.699 31.655,26.471 31.001,27.082 C30.351,27.688 29.572,27.994 28.684,27.994 L21.854,27.994 C21.683,29.458 21.129,30.752 20.199,31.851 C19.016,33.248 17.555,33.956 15.856,33.956 ZM2.098,25.251 C2.158,25.388 2.254,25.516 2.388,25.641 C2.655,25.891 2.950,26.007 3.315,26.007 L11.820,26.007 L11.820,27.001 C11.820,28.419 12.227,29.591 13.064,30.580 C13.855,31.515 14.768,31.969 15.856,31.969 C16.943,31.969 17.857,31.515 18.648,30.579 C19.485,29.591 19.892,28.419 19.892,27.001 L19.892,26.007 L28.684,26.007 C29.049,26.007 29.344,25.891 29.612,25.640 C29.746,25.515 29.841,25.388 29.901,25.251 C29.439,24.863 29.008,24.460 28.615,24.048 C28.082,23.489 27.527,22.763 26.967,21.889 C26.403,21.010 25.921,20.054 25.534,19.045 C25.145,18.033 24.825,16.806 24.582,15.395 C24.339,13.987 24.216,12.460 24.216,10.855 C24.216,9.402 23.617,8.070 22.384,6.786 C21.128,5.481 19.513,4.707 17.446,4.422 L16.121,4.240 L16.663,3.035 C16.701,2.951 16.720,2.868 16.720,2.782 C16.720,2.608 16.665,2.484 16.530,2.358 C16.234,2.083 15.767,2.082 15.468,2.359 C15.334,2.485 15.279,2.608 15.279,2.782 C15.279,2.868 15.298,2.950 15.336,3.034 L15.880,4.240 L14.554,4.422 C12.486,4.707 10.871,5.481 9.615,6.787 C8.383,8.070 7.783,9.402 7.783,10.855 C7.783,12.461 7.660,13.989 7.418,15.395 C7.174,16.806 6.854,18.033 6.466,19.044 C6.079,20.052 5.597,21.008 5.034,21.888 C4.463,22.777 3.923,23.483 3.383,24.048 C2.989,24.462 2.558,24.865 2.098,25.251 Z"/></svg>
+          </a>
+          <a href="#view-menu" class="tab-link">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 36 34"><path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M35.000,18.000 L1.000,18.000 C0.448,18.000 -0.000,17.552 -0.000,17.000 C-0.000,16.448 0.448,16.000 1.000,16.000 L35.000,16.000 C35.552,16.000 36.000,16.448 36.000,17.000 C36.000,17.552 35.552,18.000 35.000,18.000 ZM35.000,2.000 L1.000,2.000 C0.448,2.000 -0.000,1.552 -0.000,1.000 C-0.000,0.448 0.448,-0.000 1.000,-0.000 L35.000,-0.000 C35.552,-0.000 36.000,0.448 36.000,1.000 C36.000,1.552 35.552,2.000 35.000,2.000 ZM1.000,32.000 L35.000,32.000 C35.552,32.000 36.000,32.448 36.000,33.000 C36.000,33.552 35.552,34.000 35.000,34.000 L1.000,34.000 C0.448,34.000 -0.000,33.552 -0.000,33.000 C-0.000,32.448 0.448,32.000 1.000,32.000 Z"/></svg>
           </a>
         </div>
       </div>
-      <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
+
       <div id="view-home" class="view view-main tab tab-active">
-        <!-- Page, data-name contains page name which can be used in page callbacks -->
-        <div class="page" data-name="home">
+      </div>
+
+      <!-- Catalog View -->
+      <div id="view-search" class="view tab">
+        <div class="page">
           <!-- Top Navbar -->
           <div class="navbar">
             <div class="navbar-inner">
-              <div class="left">
-                <a href="#" class="link icon-only panel-open" data-panel="left">
-                  <i class="icon f7-icons ios-only">menu</i>
-                  <i class="icon material-icons md-only">menu</i>
-                </a>
-              </div>
-              <div class="title sliding">Home</div>
-              <div class="right">
-                <a href="#" class="link icon-only panel-open" data-panel="right">
-                  <i class="icon f7-icons ios-only">menu</i>
-                  <i class="icon material-icons md-only">menu</i>
-                </a>
-              </div>
+		      <div class="left">
+		        <a onclick="GetMyPhoto();" href="#" class="link icon-only panel-open">
+		          <i class="material-icons">add_a_photo</i>
+		        </a>
+		      </div>
+		      <div class="title sliding">Search</div>
+		      <div class="right">
+		        <a href="#view-settings" class="link icon-only panel-open">
+		          <i class="material-icons">account_circle</i>
+		        </a>
+		      </div>
             </div>
           </div>
-
-          <!-- Scrollable page content-->
           <div class="page-content">
-            <div class="block block-strong">
-              <p>This is an example of tabs-layout application. The main point of such tabbed layout is that each tab contains independent view with its own routing and navigation.</p>
-              <p>Each tab/view may have different layout, different navbar type (dynamic, fixed or static) or without navbar like this tab.</p>
-            </div>
-
             <div class="block-title">Navigation && TESTS</div>
             <div class="list">
               <ul>
@@ -186,76 +164,76 @@
         </div>
       </div>
 
-      <!-- Catalog View -->
+      <!-- Messages View -->
+      <div id="view-messages" class="view tab"></div>
+
+      <!-- Settings View -->
+      <div id="view-notices" class="view tab"></div>
+
+      <!-- Menu View -->
+      <div id="view-menu" class="view tab"></div>
+
+
+
+      <!-- Settings View -->
       <div id="view-catalog" class="view tab">
-        <!-- Catalog page will be loaded here dynamically from /catalog/ route -->
+        <!-- Settings page will be loaded here dynamically from /settings/ route -->
       </div>
 
       <!-- Settings View -->
       <div id="view-settings" class="view tab">
         <!-- Settings page will be loaded here dynamically from /settings/ route -->
       </div>
+
+
+		<div id="login-screen" class="login-screen">
+		  <!-- Default view-page layout -->
+		  <div class="view">
+		    <div class="page">
+		      <!-- page-content has additional login-screen content -->
+		      <div class="page-content login-screen-content">
+		        <div class="login-screen-title"><img src="images/fit_crm_logo.png" width="50%"></div>
+		        <!-- Login form -->
+		        <form id="login-form">
+		          <div class="list">
+		            <ul>
+		              <li class="item-content item-input">
+		                <div class="item-inner">
+		                  <div class="item-title item-label">Username</div>
+		                  <div class="item-input-wrap">
+		                    <input type="text" name="username" placeholder="Username" required validate>
+		                    <span class="input-clear-button"></span>
+		                  </div>
+		                </div>
+		              </li>
+		              <li class="item-content item-input">
+		                <div class="item-inner">
+		                  <div class="item-title item-label">Password</div>
+		                  <div class="item-input-wrap">
+		                    <input type="password" name="password" placeholder="Password" required validate>
+		                    <span class="input-clear-button"></span>
+		                  </div>
+		                </div>
+		              </li>
+		            </ul>
+		          </div>
+		          <div class="block">
+		            <button type="submit" id="login-button" class="button button-raised button-fill">Sign In</button>
+		            <!--<ul>
+		              <li>
+		                <a href="#" class="item-link list-button" id="login-button">Sign In</a>
+		              </li>
+		            </ul>-->
+		            <div class="block-footer">Some text with login information.</div>
+		          </div>
+		        </form>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
     </div>
 
-    <!-- Popup -->
-    <div class="popup" id="my-popup">
-      <div class="view">
-        <div class="page">
-          <div class="navbar">
-            <div class="navbar-inner">
-              <div class="title">Popup</div>
-              <div class="right">
-                <a href="#" class="link popup-close">Close</a>
-              </div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="block">
-              <p>Popup content goes here.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Login Screen -->
-    <!--<div class="login-screen" id="my-login-screen">
-      <div class="view">
-        <div class="page">
-          <div class="page-content login-screen-content">
-            <div class="login-screen-title">Login</div>
-            <div class="list">
-              <ul>
-                <li class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">{{$root.lang.l.username}}</div>
-                    <div class="item-input-wrap">
-                      <input type="text" name="username" placeholder="Your username">
-                    </div>
-                  </div>
-                </li>
-                <li class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">{{$root.lang.l.password}}</div>
-                    <div class="item-input-wrap">
-                      <input type="password" name="password" placeholder="Your password">
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="list">
-              <ul>
-                <li>
-                  <a href="#" class="item-link list-button login-button">Sign In</a>
-                </li>
-              </ul>
-              <div class="block-footer">Some text about login information.<br>Click "Sign In" to close Login Screen</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
   </div>
   <!-- Cordova -->
   <script src="cordova.js"></script>
@@ -265,6 +243,9 @@
 
   <!-- App library -->
   <script src="js/lib.js"></script>
+
+  <!-- App templates -->
+  <script src="js/templates.js"></script>
 
   <!-- App routes -->
   <script src="js/routes.js"></script>
