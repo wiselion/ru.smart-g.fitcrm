@@ -1,13 +1,75 @@
+// setting urls
+app_prms.url = {
+	auth: 'https://lifeis.dance/app/auth.php',
+	userdata: 'https://lifeis.dance/app/userdata.php',
+	login: 'https://lifeis.dance/app/login.php',
+	logout: 'https://lifeis.dance/app/logout.php',
+	tape: 'https://lifeis.dance/app/tape.php',
+	post: 'https://lifeis.dance/app/post.php',
+	comments: 'https://lifeis.dance/app/comments.php',
+	userinfo: 'https://lifeis.dance/app/userinfo.php',
+	usertape: 'https://lifeis.dance/app/usertape.php',
+	notices: 'https://lifeis.dance/app/notices.php',
+	chats: 'https://lifeis.dance/app/messages_all.php',
+	messages: 'https://lifeis.dance/app/messages.php',
+	sendmessage: 'https://lifeis.dance/app/sendmessage.php',
+};
+
 routes = [
   {
     path: '/',
-    url: './index.html',
+    componentUrl: './pages/tape.html',
   },
   {
-    path: '/login/',
-    loginScreen:{templateUrl:'./pages/login-screen.html'},
-    //loginScreen: {componentUrl:'./pages/login-screen.html'}
+    path: '/post/:postId/',
+    componentUrl: './pages/post.html',
   },
+  {
+    path: '/users/:userId/',
+    componentUrl: './pages/userpage.html',
+  },
+  {
+    path: '/tags/:tagId/',
+    componentUrl: './pages/tagpage.html',
+  },
+/*  {
+    path: '/login/',
+    loginScreen:{componentUrl:'./pages/login-screen.html'},
+    //loginScreen: {componentUrl:'./pages/login-screen.html'}
+  },*/
+  {
+    path: '/logout/',
+    async: function (routeTo, routeFrom, resolve, reject) {
+		app.request.json(app_prms.url.logout,(data) => {
+			console.log('start logout');
+		},
+		(xhr, status) => {
+			if(status==401 || status==403) SetNotAuth();
+			else app.dialog.alert(lang.login.disconnect);
+		},'json');
+	}
+  },
+  {
+    path: '/menu/',
+    url: './pages/menu.html',
+  },
+  {
+    path: '/messages/',
+    componentUrl: './pages/messages.html',
+  },
+  {
+    path: '/message/:chatId/',
+    componentUrl: './pages/message.html',
+  },
+/*  {
+    path: '/message/',
+    url: './pages/message.html',
+  },*/
+  {
+    path: '/notices/',
+    componentUrl: './pages/notices.html',
+  },
+
   {
     path: '/about/',
     templateUrl: './pages/about.html',

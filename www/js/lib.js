@@ -1,3 +1,260 @@
+// application langs
+var lang = {};
+// application data && maybe setted to localStorage
+var app_data = {};
+// application params
+var app_prms = {
+	url: {},
+	tmpl: {}
+};
+var authorize = true;
+var userdata = {};
+
+// ------------- SYS LIB --------------- //
+String.prototype.printf = function() {
+    var formatted = this;
+    for( var arg in arguments ) {
+        formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+    }
+    return formatted;
+};
+// использование Math.round() даст неравномерное распределение!
+function getRandomInt(min, max)
+{
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+// ------------- INITIALIZATION --------------- //
+// Init/Create application
+function InitApplication() {
+	app.init();
+	app.request.post(app_prms.url.userdata, {}, (req) => {
+		userdata = req;
+		InitViews();
+	},
+	(xhr, status) => {
+		app.preloader.hide();
+		if(status==401 || status==403) SetNotAuth();
+		else app.dialog.alert(lang.login.disconnect);
+	},'json');
+}
+// Init/Create views
+function InitViews() {
+	if(homeView===undefined) homeView = app.views.create('#view-home',{url:'/'});
+	if(searchView===undefined) searchView = app.views.create('#view-search',{url:'/search/'});
+	if(menuView===undefined) menuView = app.views.create('#view-menu',{url:'/menu/'});
+	if(messagesView===undefined) messagesView = app.views.create('#view-messages',{url:'/messages/'});
+	if(noticesView===undefined) noticesView = app.views.create('#view-notices',{url:'/notices/'});
+	app.preloader.hide();
+}
+function InitAppAfterLogin() {
+	loginScreen.close();
+	InitViews();
+}
+function SendAuthRequest(url,data) {
+	app.preloader.show();
+	app.request.post(url, data, (req) => {
+		app.preloader.hide();
+		if(req.status) InitAppAfterLogin();
+		else app.dialog.alert(req.error);
+	},
+	(xhr, status) => {
+		app.preloader.hide();
+		app.dialog.alert(lang.login.disconnect);
+		//if(status==401 || status==403) SetNotAuth(); //console.log('show login screen');
+	},'json');
+}
+// if get 401 or 403 code
+function SetNotAuth() {
+	// наверное стоит перезагружать те функции, которые прилетели без авторизации
+	if(!authorize) return;
+	//app.dialog.alert('not auth');
+	loginScreen.open();
+	// init view
+	// .........
+}
+// ------------- GLOBALIZATION ---------------- //
+function SetUserLanguage(lng) {
+	lng = lng.substr(0,2).toLowerCase();
+	//app.preloader.show();
+	app.request.json('langs/'+lng+'.json',{},
+		function(data,status,xhr){lang=data;InitApplication();},
+		function(xhr,status){app.dialog.alert('Error getting language: '+status+'\n');/*console.log('error');console.log(status);console.log(xhr);*/}
+	);
+}
+// HTML5 version
+function InitGlobalPreferredLanguage() {
+	var lang = navigator.language!==undefined ? navigator.language : 'en';
+	SetUserLanguage(lang);
+}
+// plugin version
+function InitGlobalPreferredLanguagePlugin() {
+	navigator.globalization.getPreferredLanguage(
+        function(data){SetUserLanguage(data.value);},
+        function(){SetUserLanguage('en');}
+	);
+}
+
+// ------------- LOADING --------------- //
+function LoadItemsToInfiniteTape(url,container,tmpl,f_beforecomplete,f_aftercomplete) {
+	//console.log('load items to scroll');
+	//console.log(url);
+	//console.log(container);
+	//console.log(tmpl);
+	if(container.hasClass('loadstate')) return;
+	container.addClass('loadstate');
+	app.request.post(url, {}, (reqdata) => {
+		if(f_beforecomplete!==undefined) f_beforecomplete();
+		var html = tmpl(reqdata);
+		//console.log(html);
+		// js not init
+		container.append(html).removeClass('loadstate');
+		app.swiper.create(container.find('.swiper-container'),{pagination:{el:".swiper-pagination"}});
+		//$$(html).appendTo(container);
+		//container.removeClass('loadstate');
+		// :TODO: remove if end of tape
+		if(f_aftercomplete!==undefined) f_aftercomplete();
+	},
+	(xhr, status) => {
+		console.log('error xhr loading');
+		console.log(status);
+		if(status==401 || status==403) SetNotAuth(); //console.log('show login screen');
+	},'json');
+}
+
+// ------------- MESSAGES --------------- //
+function LoadMessagesToPage(url,container,f_beforecomplete,f_aftercomplete) {
+	if(container.hasClass('loadstate')) return;
+	container.addClass('loadstate');
+	//console.log(container);
+	var mess_container = app.messages.get(container);
+	//console.log(app.messages);
+	//console.log(mess_container);
+	app.request.post(url, {}, (md) => {
+		if(f_beforecomplete!==undefined) f_beforecomplete();
+		if(md.messages!==undefined) {
+			SetMessages(mess_container,md.messages,'prepend');
+			container.removeClass('loadstate');
+		}
+		if(f_aftercomplete!==undefined) f_aftercomplete();
+	},
+	(xhr, status) => {
+		console.log('error xhr messages loading');
+		console.log(status);
+		if(status==401 || status==403) SetNotAuth(); //console.log('show login screen');
+	},'json');
+}
+function GetMessageObj(ms) {
+	var mo = {};
+	if(ms.type===undefined) ms.type='s';
+	mo.footer = GetSmartShortDateTimeTS(ms.timestamp);
+	if(ms.message!==undefined) mo.text = ms.message;
+	if(ms.image!==undefined) mo.imageSrc = ms.image;
+	switch(ms.type) {
+		case 's':
+			mo.type = 'sent';
+		break;
+		case 'r':
+			mo.type = 'received';
+			if(ms.author!==undefined) {
+				mo.name = ms.author.name;
+				mo.avatar = ms.author.photo;
+			}
+		break;
+	}
+	return mo;
+}
+function GetSmartShortDateTime(d) {
+	return (d.getHours()<10?'0':'')+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();
+}
+function GetSmartShortDateTimeTS(ts) {
+	var d = new Date(ts*1000);
+//	return '{0}:{1}'.printf(d.getHours(),d.getMinutes());
+	return (d.getHours()<10?'0':'')+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();
+}
+function SetMessages(mobj,ms,dir) {
+	var mss = [];
+	for(var i=0;i<ms.length;i++) mss.push(GetMessageObj(ms[i]));
+	//console.log(mss);
+	mobj.addMessages(mss,dir);
+	mobj.addMessages(mss,'prepend');
+}
+function SetMessage(mobj,ms,dir) {
+	mobj.addMessage(GetMessageObj(ms),dir);
+}
+function SendMessage(mbc,mc,url) {
+	if(!mbc.val()) return;
+	app.request.post(url, {message:mbc.val()}, (res) => {
+		if(res.status) {
+			var mess_container = app.messages.get(mc);
+			var d = new Date();
+			mess_container.addMessage({
+				text:mbc.val(),
+				footer:GetSmartShortDateTime(d)
+			},'append');
+			mbc.val('');
+			// TEST
+			setTimeout(function(){SendRandTyping(mess_container);},1000);
+			setTimeout(function(){SendRandMessage(mess_container);},4000);
+		} else {
+			app.dialog.alert(res.error);
+		}
+	},
+	(xhr, status) => {
+		console.log('error xhr send message loading');
+		console.log(status);
+		if(status==401 || status==403) console.log('show login screen');
+	},'json');
+}
+function SendRandTyping(mess_container) {
+	var auth = [
+		{"id":1,"photo":"https:\/\/lifeis.dance\/app\/i\/p1.jpg","name":"Alexander Pushkin","alias":"alex_pushkin"},
+		{"id":2,"photo":"https:\/\/lifeis.dance\/app\/i\/p2.jpg","name":"Alexander Ostrovsky","alias":"theatre"},
+		{"id":3,"photo":"https:\/\/lifeis.dance\/app\/i\/p3.jpg","name":"Ivan Turgenev","alias":"fathers_sons"},
+		{"id":4,"photo":"https:\/\/lifeis.dance\/app\/i\/p4.jpg","name":"Leo Tolstoy","alias":"pacifist"},
+		{"id":5,"photo":"https:\/\/lifeis.dance\/app\/i\/p5.jpg","name":"Noname Nofamily","alias":"noname"},
+		{"id":6,"photo":"https:\/\/lifeis.dance\/app\/i\/p6.jpg","name":"Alexander Griboedov","alias":"a_griboedov"}];
+	var ind = getRandomInt(0,auth.length);
+	mess_container.showTyping({header:auth[ind].name+' is typing',avatar:auth[ind].photo});
+}
+function SendRandMessage(mess_container) {
+	mess_container.hideTyping();
+	var messages = [
+		{"id":223,"timestamp":1537806797,"type":"r","message":"Lorem ipsum dolor sit amet, consectetur adipisicing elit.","author":{"id":1,"photo":"https:\/\/lifeis.dance\/app\/i\/p1.jpg","name":"Alexander Pushkin","alias":"alex_pushkin"}},
+		{"id":220,"timestamp":1537806377,"type":"r","message":"Hi, I am good!","author":{"id":2,"photo":"https:\/\/lifeis.dance\/app\/i\/p2.jpg","name":"Alexander Ostrovsky","alias":"theatre"}},
+		{"id":219,"timestamp":1537806197,"type":"r","message":"Hi there, I am also fine, thanks! And how are you?","author":{"id":3,"photo":"https:\/\/lifeis.dance\/app\/i\/p3.jpg","name":"Ivan Turgenev","alias":"fathers_sons"}},
+		{"id":215,"timestamp":1537804577,"type":"r","message":"Nice!","author":{"id":4,"photo":"https:\/\/lifeis.dance\/app\/i\/p4.jpg","name":"Leo Tolstoy","alias":"pacifist"}},
+		{"id":214,"timestamp":1537803557,"type":"r","message":"Like it very much!","author":{"id":5,"photo":"https:\/\/lifeis.dance\/app\/i\/p5.jpg","name":"Noname Nofamily","alias":"noname"}},
+		{"id":213,"timestamp":1537803017,"type":"r","message":"Awesome! (213)","author":{"id":6,"photo":"https:\/\/lifeis.dance\/app\/i\/p6.jpg","name":"Alexander Griboedov","alias":"a_griboedov"}}];
+	var ind = getRandomInt(0,messages.length);
+	SetMessage(mess_container,messages[ind]);
+}
+
+/*
+id
+timestamp
+type
+message
+author {
+	id
+	photo
+	name
+	alias
+}
+
+text	string		Message text
+header	string		Single message header
+footer	string		Single message footer
+name	string		Sender name
+avatar	string		Sender avatar URL string
+type	string	sent	Message type - sent or received
+textHeader	string		Message text header
+textFooter	string		Message text footer
+image	string		Message image HTML string, e.g. <img src="path/to/image">. Can be used instead of imageSrc parameter
+imageSrc	string		Message image URL string. Can be used instead of image parameter
+isTitle	boolean		Defines whether it should be rendered as a message or as a messages title
+*/
+
+// !!! ВСЕ ЧТО НИЖЕ НАДО УПОРЯДОЧИТЬ !!! //
 
 
 // ------------- GEOLOCATION -------------- //
@@ -27,23 +284,6 @@
     //navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
     
 // ------------- GLOBALIZATION ---------------- //
-function SetUserLanguage(lng) {
-	lng = lng.substr(0,2).toLowerCase();
-	//app.preloader.show();
-	app.request.json('langs/'+lng+'.json',{},
-		function(data,status,xhr){lang=data;app.init();/*console.log('success');console.log(data);console.log(status);console.log(xhr);*/},
-		function(xhr,status){app.dialog.alert('Error getting language: '+status+'\n');/*console.log('error');console.log(status);console.log(xhr);*/}
-	);
-}
-function InitGlobalPreferredLanguage() {
-	navigator.globalization.getPreferredLanguage(
-        function(data){SetUserLanguage(data.value);},
-        function(){SetUserLanguage('en');}
-	);
-}
-
-
-
 function GlobalPreferredLanguage() {
 	navigator.globalization.getPreferredLanguage(
         function (data) {alert('language: ' + data.value + '\n');},
