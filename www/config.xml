@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="dance.lifeis.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<widget id="ru.smart-g.fitcrm" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>Fit CRM</name>
     <description>
         Fit CRM application from idance.online.
@@ -16,17 +16,17 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
 
-    <splash src="www/res/splash/default.png" platform="ios" width="320" height="480" />
-    <splash src="www/res/splash/default@2x.png" platform="ios" width="640" height="960" />
-    <splash src="www/res/splash/default@3x.png" platform="ios" width="960" height="1440" />
-    <splash src="www/res/splash/default-568h@2x-iphone.png" width="640" height="1136"/>
-    <splash src="www/res/splash/default-667h.png" width="750" height="1334"/>
-    <splash src="www/res/splash/default-736h.png" width="1242" height="2208"/>
+    <splash src="www/res/splash/default.jpg" platform="ios" width="320" height="480" />
+    <splash src="www/res/splash/default@2x.jpg" platform="ios" width="640" height="960" />
+    <splash src="www/res/splash/default@3x.jpg" platform="ios" width="960" height="1440" />
+    <splash src="www/res/splash/default-568h@2x-iphone.jpg" width="640" height="1136"/>
+    <splash src="www/res/splash/default-667h.jpg" width="750" height="1334"/>
+    <splash src="www/res/splash/default-736h.jpg" width="1242" height="2208"/>
 
-    <splash src="www/res/splash/ldpi.png" platform="android" qualifier="ldpi" />
-    <splash src="www/res/splash/mdpi.png" platform="android" qualifier="mdpi" />
-    <splash src="www/res/splash/hdpi.png" platform="android" qualifier="hdpi" />
-    <splash src="www/res/splash/xhdpi.png" platform="android" qualifier="xhdpi" />
+    <splash src="www/res/splash/ldpi.jpg" platform="android" qualifier="ldpi" />
+    <splash src="www/res/splash/mdpi.jpg" platform="android" qualifier="mdpi" />
+    <splash src="www/res/splash/hdpi.jpg" platform="android" qualifier="hdpi" />
+    <splash src="www/res/splash/xhdpi.jpg" platform="android" qualifier="xhdpi" />
 
     <platform name="android">
 		<preference name="phonegap-version" value="cli-7.1.0" />
